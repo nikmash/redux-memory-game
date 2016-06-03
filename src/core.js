@@ -23,13 +23,13 @@ export function play (state, turn) {
                     .set('turn2', null)
                     .setIn(constructKeyPath(state, ['cards', (card) => card.get('id') === turn, 'flipped']), true)
       }
-
       return state.update('round', round => round + 1)
-                  .set('turn1', turn)
-                  .set('turn2', null)
                   .setIn(constructKeyPath(state, ['cards', (card) => card.get('id') === turn1, 'flipped']), false)
                   .setIn(constructKeyPath(state, ['cards', (card) => card.get('id') === turn2, 'flipped']), false)
                   .setIn(constructKeyPath(state, ['cards', (card) => card.get('id') === turn, 'flipped']), true)
+                  .set('turn1', turn)
+                  .set('turn2', null)
+
     }
 
     return state.update('round', round => round + 1)
@@ -39,13 +39,6 @@ export function play (state, turn) {
 
   } else {
     let turn1 = state.get('turn1')
-
-    //First Turn
-    if (!turn1) {
-      return state.update('round', round => round + 1)
-                  .set('turn1', turn)
-                  .setIn(constructKeyPath(state, ['cards', (card)=> card.get('id') === turn, 'flipped']), true)
-    }
 
     if (state.getIn(constructKeyPath(state, ['cards', (card) => card.get('id') === turn1, 'twin'])) === turn) {
       return state.update('round', round => round + 1)
